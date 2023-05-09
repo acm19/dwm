@@ -4,7 +4,7 @@
  */
 
 /* enable multimedia key buttons */
-/* #include <X11/XF86keysym.h> */
+#include <X11/XF86keysym.h>
 
 /* some custom colors & themes */
 #if 1
@@ -136,8 +136,6 @@ static Key keys[] = {
   { MODKEY|ShiftMask|ControlMask,   XK_bracketleft,  spawn,              SHCMD("xclip -o | dmenu -l 25") },
   { MODKEY|ShiftMask|ControlMask,   XK_bracketright, spawn,              SHCMD("xclip -o -selection clipboard | dmenu -l 25") },
   { MODKEY,                         XK_F9,           spawn,              SHCMD("volume toggle && wmbarupdate") },
-  { MODKEY,                         XK_F11,          spawn,              SHCMD("volume down && wmbarupdate") },
-  { MODKEY,                         XK_F12,          spawn,              SHCMD("volume up && wmbarupdate") },
   { MODKEY|ControlMask,             XK_s,            spawn,              SHCMD("slock") },
   { MODKEY|ControlMask,             XK_b,            spawn,              SHCMD("wmbarupdate") },
   { MODKEY,                         XK_Print,        spawn,              SHCMD("wmscreenshot full") },
@@ -161,6 +159,11 @@ static Key keys[] = {
   { MODKEY,                         XK_F4,           spawn,              SHCMD("keyboard-toggle && wmbarupdate") },
   { MODKEY,                         XK_o,            organize,           {0} },
   { MODKEY|ShiftMask,               XK_o,            putfilemfact,       {0} },
+  /* END OF MODKEYS */
+
+  /* FUNCTION KEYS */
+  { 0,        XF86XK_AudioMute,     spawn,    SHCMD("amixer -D pulse sset Master toggle && wmbarupdate") },
+  /* END OF FUNCTION KEYS */
 };
 
 /* button definitions */
