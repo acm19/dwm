@@ -743,7 +743,7 @@ void spawnsh(const char *cmd)
 void stackdown(const Arg *arg) {
   Client *c;
 
-  if (!selmon->sel || selmon->sel->isfloating || selmon->sel == nexttiled(selmon->clients)) {
+  if (!selmon->sel || selmon->sel->isfloating || ismaster(selmon->sel)) {
     return;
   }
 
@@ -752,16 +752,16 @@ void stackdown(const Arg *arg) {
     detach(selmon->sel);
     selmon->sel->next = c->next;
     c->next = selmon->sel;
+    focus(selmon->sel);
+    arrange(selmon);
   }
-  focus(selmon->sel);
-  arrange(selmon);
 }
 
 /* move stack up */
 void stackup(const Arg *arg) {
   Client *c, *p;
 
-  if (!selmon->sel || selmon->sel->isfloating) {
+  if (!selmon->sel || selmon->sel->isfloating || ismaster(selmon->sel)) {
     return;
   }
 
@@ -771,16 +771,16 @@ void stackup(const Arg *arg) {
       c = p;
     }
   }
-  if (c && c != nexttiled(selmon->clients)) {
+  if (c && !ismaster(c)) {
     detach(selmon->sel);
     selmon->sel->next = c;
     for (c = selmon->clients; c->next != selmon->sel->next; c = c->next) {
       ;
     }
     c->next = selmon->sel;
+    focus(selmon->sel);
+    arrange(selmon);
   }
-  focus(selmon->sel);
-  arrange(selmon);
 }
 
 void toggleborder(const Arg *arg)

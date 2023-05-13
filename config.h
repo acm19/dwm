@@ -82,13 +82,19 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "terminator", NULL };
+static const char *firefox[]  = { "firefox", NULL };
+static const char *firefox_private[]  = { "firefox", "--private-window", NULL };
+static const char *netbeans[]  = { "netbeans", NULL };
+static const char *pycharm[]  = { "pycharm", NULL };
+static const char *opera[]  = { "opera", NULL };
+static const char *code[]  = { "code", NULL };
 
 static Key keys[] = {
   /* modifier                     key        function        argument */
 
   /* DEFAULTS */
-  { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-  { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+  { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd} },
+  { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd} },
   { MODKEY,                       XK_b,      togglebar,      {0} },
   { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
   { MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -128,7 +134,7 @@ static Key keys[] = {
   { MODKEY|ShiftMask,               XK_Escape,       spawn,              SHCMD("xkill") },
   { MODKEY|ShiftMask|ControlMask,   XK_Escape,       spawn,              SHCMD("wmkill") },
   { MODKEY|ShiftMask,               XK_p,            spawn,              SHCMD("gmrun") },
-  { MODKEY|ShiftMask|ControlMask,   XK_p,            spawn,              SHCMD("wmmenu") },
+  { MODKEY|ShiftMask|ControlMask,   XK_m,            spawn,              SHCMD("wmmenu") },
   { MODKEY|ControlMask,             XK_Return,       scratchpadmon,      {0} },
   { MODKEY|ShiftMask|ControlMask,   XK_Return,       zoommon,            {0} },
   { MODKEY|ControlMask,             XK_bracketleft,  spawn,              SHCMD("primary2clipboard") },
@@ -161,6 +167,12 @@ static Key keys[] = {
   { MODKEY|ShiftMask,               XK_o,            putfilemfact,       {0} },
   { MODKEY|ShiftMask,               XK_j,            stackdown,          {0} },
   { MODKEY|ShiftMask,               XK_k,            stackup,            {0} },
+  { MODKEY|ShiftMask|ControlMask,   XK_f,            spawn,              {.v = firefox} },
+  { MODKEY|ShiftMask|ControlMask,   XK_i,            spawn,              {.v = firefox_private} },
+  { MODKEY|ShiftMask|ControlMask,   XK_n,            spawn,              {.v = netbeans} },
+  { MODKEY|ShiftMask|ControlMask,   XK_p,            spawn,              {.v = pycharm} },
+  { MODKEY|ShiftMask|ControlMask,   XK_o,            spawn,              {.v = pycharm} },
+  { MODKEY|ShiftMask|ControlMask,   XK_c,            spawn,              {.v = code} },
   /* END OF MODKEYS */
 
   /* FUNCTION KEYS */
