@@ -905,10 +905,12 @@ void zoomfirst(const Arg *arg)
 {
   Client *c;
 
-  if (!selmon->sel || !ismaster(selmon->sel) || selmon->sel->isfloating) {
+  if (!selmon->sel || selmon->sel->isfloating) {
     return;
   }
 
+  // bring focus to master before rotation
+  focusmaster(arg);
   for (c = selmon->sel; c->next; c = c->next) {
     ;
   }
@@ -924,10 +926,12 @@ void zoomlast(const Arg *arg)
   Client *c;
   Client *cl;
 
-  if (!selmon->sel || !ismaster(selmon->sel) || selmon->sel->isfloating) {
+  if (!selmon->sel || selmon->sel->isfloating) {
     return;
   }
 
+  // bring focus to master before rotation
+  focusmaster(arg);
   cl = selmon->sel;
   for (c = selmon->clients; c; c = c->next) {
     if (ISVISIBLE(c) && !c->isfloating) {
