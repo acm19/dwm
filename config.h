@@ -52,7 +52,7 @@ static const Rule rules[] = {
 
 
 /* layout(s) */
-static const float mfact		= 0.60; /* factor of master area size [0.05..0.95] */
+static const float mfact		= 0.70; /* factor of master area size [0.05..0.95] */
 static const int nmaster		= 1;    /* number of clients in master area */
 static const int resizehints	= 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1;	/* 1 will force focus on the fullscreen window */
@@ -142,7 +142,7 @@ static Key keys[] = {
   { MODKEY|ShiftMask|ControlMask,   XK_bracketleft,  spawn,              SHCMD("xclip -o | dmenu -l 25") },
   { MODKEY|ShiftMask|ControlMask,   XK_bracketright, spawn,              SHCMD("xclip -o -selection clipboard | dmenu -l 25") },
   { MODKEY,                         XK_F9,           spawn,              SHCMD("volume toggle && wmbarupdate") },
-  { MODKEY|ControlMask,             XK_s,            spawn,              SHCMD("slock") },
+  { MODKEY|ControlMask,             XK_l,            spawn,              SHCMD("slock") },
   { MODKEY|ControlMask,             XK_b,            spawn,              SHCMD("wmbarupdate") },
   { MODKEY,                         XK_Print,        spawn,              SHCMD("wmscreenshot full") },
   { MODKEY|ShiftMask,               XK_Print,        spawn,              SHCMD("wmscreenshot select") },

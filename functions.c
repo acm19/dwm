@@ -244,7 +244,6 @@ void organize(const Arg *arg)
   /* focus to latest current window */
   putcurwin();
 
-  sprintf(filepath, "%s/%s-dwm-organize.lock", tmpdir, user);
   if (!(file = fopen(filepath, "w+"))) {
     debug("can't create file %s", filepath);
     return;
