@@ -80,14 +80,15 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]  = { "terminator", NULL };
-static const char *firefox[]  = { "firefox", NULL };
-static const char *firefox_private[]  = { "firefox", "--private-window", NULL };
-static const char *netbeans[]  = { "netbeans", NULL };
-static const char *pycharm[]  = { "pycharm", NULL };
-static const char *opera[]  = { "opera", NULL };
-static const char *code[]  = { "code", NULL };
+static const char *dmenucmd[]        = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+static const char *termcmd[]         = { "terminator", NULL };
+static const char *firefox[]         = { "firefox", NULL };
+static const char *firefox_private[] = { "firefox", "--private-window", NULL };
+static const char *netbeans[]        = { "netbeans", NULL };
+static const char *pycharm[]         = { "pycharm", NULL };
+static const char *opera[]           = { "opera", NULL };
+static const char *code[]            = { "code", NULL };
+static const char *alacritty[]       = { "alacritty", NULL };
 
 static Key keys[] = {
   /* modifier                     key        function        argument */
@@ -173,6 +174,7 @@ static Key keys[] = {
   { MODKEY|ShiftMask|ControlMask,   XK_p,            spawn,              {.v = pycharm} },
   { MODKEY|ShiftMask|ControlMask,   XK_o,            spawn,              {.v = pycharm} },
   { MODKEY|ShiftMask|ControlMask,   XK_c,            spawn,              {.v = code} },
+  { MODKEY|ShiftMask|ControlMask,   XK_t,            spawn,              {.v = alacritty} },
   /* END OF MODKEYS */
 
   /* FUNCTION KEYS */
