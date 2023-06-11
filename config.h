@@ -52,10 +52,10 @@ static const Rule rules[] = {
 
 
 /* layout(s) */
-static const float mfact		= 0.70; /* factor of master area size [0.05..0.95] */
-static const int nmaster		= 1;    /* number of clients in master area */
-static const int resizehints	= 0;    /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen = 1;	/* 1 will force focus on the fullscreen window */
+static const float mfact		    = 0.70; /* factor of master area size [0.05..0.95] */
+static const int nmaster		    = 1;    /* number of clients in master area */
+static const int resizehints	  = 0;    /* 1 means respect size hints in tiled resizals */
+static const int lockfullscreen = 1;	  /* 1 will force focus on the fullscreen window */
 
 /* custom functions */
 #include "functions.c"
@@ -145,8 +145,7 @@ static Key keys[] = {
   { MODKEY,                         XK_F9,           spawn,              SHCMD("volume toggle && wmbarupdate") },
   { MODKEY|ControlMask,             XK_l,            spawn,              SHCMD("slock") },
   { MODKEY|ControlMask,             XK_b,            spawn,              SHCMD("wmbarupdate") },
-  { MODKEY,                         XK_Print,        spawn,              SHCMD("wmscreenshot full") },
-  { MODKEY|ShiftMask,               XK_Print,        spawn,              SHCMD("wmscreenshot select") },
+  { MODKEY,                         XK_Print,        spawn,              SHCMD("wmscreenshot select") },
   { MODKEY,                         XK_Home,         focusclient,        {.v = defbrowser} },
   { MODKEY,                         XK_End,          reloadbrowser,      {.v = defbrowser} },
   { MODKEY,                         XK_u,            showurgent,         {0} },
@@ -172,7 +171,7 @@ static Key keys[] = {
   { MODKEY|ShiftMask|ControlMask,   XK_i,            spawn,              {.v = firefox_private} },
   { MODKEY|ShiftMask|ControlMask,   XK_n,            spawn,              {.v = netbeans} },
   { MODKEY|ShiftMask|ControlMask,   XK_p,            spawn,              {.v = pycharm} },
-  { MODKEY|ShiftMask|ControlMask,   XK_o,            spawn,              {.v = pycharm} },
+  { MODKEY|ShiftMask|ControlMask,   XK_o,            spawn,              {.v = opera} },
   { MODKEY|ShiftMask|ControlMask,   XK_c,            spawn,              {.v = code} },
   { MODKEY|ShiftMask|ControlMask,   XK_t,            spawn,              {.v = alacritty} },
   /* END OF MODKEYS */
@@ -181,6 +180,7 @@ static Key keys[] = {
   { 0,     XF86XK_AudioMute,         spawn,    SHCMD("amixer -D pulse sset Master toggle && wmbarupdate") },
   { 0,     XF86XK_AudioRaiseVolume,  spawn,    SHCMD("amixer -D pulse sset Master 5%+ && wmbarupdate") },
   { 0,     XF86XK_AudioLowerVolume,  spawn,    SHCMD("amixer -D pulse sset Master 5%- && wmbarupdate") },
+  { 0,     XK_Print,                 spawn,    SHCMD("wmscreenshot full") }
   /* END OF FUNCTION KEYS */
 };
 
