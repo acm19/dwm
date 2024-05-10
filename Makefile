@@ -15,4 +15,7 @@ dwm_link:
 dwm_tools_link:
 	ln -sf $(DWM_SOURCE_PATH)/dwm $$HOME/bin
 	ln -sf $(DWM_SOURCE_PATH)/../dmenu/dmenu $$HOME/bin
+	ln -sf $(DWM_SOURCE_PATH)/../dmenu/dmenu_path $$HOME/bin
+	ln -sf $(DWM_SOURCE_PATH)/../dmenu/dmenu_run $$HOME/bin
+	ln -sf $(DWM_SOURCE_PATH)/../dmenu/stest $$HOME/bin
 	ln -sf $(DWM_SOURCE_PATH)/../st/st $$HOME/bin
