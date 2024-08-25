@@ -174,6 +174,9 @@ static Key keys[] = {
   { MODKEY|ShiftMask|ControlMask,   XK_o,            spawn,              {.v = opera} },
   { MODKEY|ShiftMask|ControlMask,   XK_c,            spawn,              {.v = code} },
   { MODKEY|ShiftMask|ControlMask,   XK_t,            spawn,              {.v = alacritty} },
+  { MODKEY,                         XK_u,            showapps,           {.v = "focus"} },
+  { MODKEY|ShiftMask,               XK_u,            showapps,           {.v = "master"} },
+  { MODKEY|ShiftMask|ControlMask,   XK_u,            showapps,           {.v = "kill"} },
   /* END OF MODKEYS */
 
   /* FUNCTION KEYS */

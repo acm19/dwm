@@ -6,8 +6,10 @@
 /* My customized functions to add dwm functionality without patching dwm.c */
 
 /* global macros */
+#define FILE_SIZE 256
 #define FIRST_TAG  1 << 0
 #define LAST_TAG   1 << (LENGTH(tags) - 1)
+#define LINE_SIZE 256
 #define SCRATCH_TAG 1 << 7
 
 /* default temporary directory path */
@@ -20,8 +22,11 @@ void focusclient(const Arg *arg);
 void focuslast(const Arg *arg);
 void focusmaster(const Arg *arg);
 void focusmonmaster(const Arg *arg);
+char *gettmpdir(void);
 char *getwindowclass(Window w);
 char *getwindowname(Window w);
+int getidfromclass(const Arg *arg);
+Client *getclientfromid(int winid);
 int ismaster(Client *c);
 void nexttag(const Arg *arg);
 void organize(const Arg *arg);
@@ -37,7 +42,9 @@ void reloaddwm(const Arg *arg);
 void savekeeptags(const Arg *arg);
 void scratchpadmon(const Arg *arg);
 void setasmaster(Client *c);
+void setasmastermon(Client *c);
 int setwindownameclass(Window w, char *sn, char *sc);
+void showapps(const Arg *arg);
 void showurgent(const Arg *arg);
 void spawnsh(const char *cmd);
 void stackdown(const Arg *arg);
@@ -165,6 +172,17 @@ void focusmonmaster(const Arg *arg)
   focusmaster(arg);
 }
 
+/* get the tmpdir */
+char *gettmpdir(void)
+{
+  char *tmpdir;
+
+  if (!(tmpdir = getenv("TMPDIR"))) {
+    tmpdir = DEFAULT_TMPDIR;
+  }
+  return tmpdir;
+}
+
 /* get client window class */
 char *getwindowclass(Window w)
 {
@@ -181,6 +199,42 @@ char *getwindowname(Window w)
 
   XGetClassHint(dpy, w, &ch);
   return ch.res_name;
+}
+
+/* get the client window id from the window class */
+int getidfromclass(const Arg *arg)
+{
+  Monitor *m;
+  Client *c;
+
+  for (m = mons; m; m = m->next) {
+    for (c = m->clients; c; c = c->next) {
+      if (strcmp(getwindowclass(c->win), arg->v) == 0) {
+        return c->win;
+      }
+    }
+  }
+  return 0;
+}
+
+/* get the client from the window id */
+Client *getclientfromid(int winid)
+{
+  Monitor *m;
+  Client *c;
+
+  if (!winid) {
+    return NULL;
+  }
+
+  for (m = mons; m; m = m->next) {
+    for (c = m->clients; c; c = c->next) {
+      if (c->win == winid) {
+         return c;
+      }
+    }
+  }
+  return NULL;
 }
 
 /* check if client is master */
@@ -694,6 +748,36 @@ void setasmaster(Client *c)
   }
 }
 
+/* put the client in the master area (multi monitor) */
+void setasmastermon(Client *cm)
+{
+  Monitor *m;
+  Client *c;
+
+  if (!cm || cm->isfloating) {
+    return;
+  }
+
+  for (m = mons; m; m = m->next) {
+    for (c = m->clients; c; c = c->next) {
+      if (c == cm) {
+        if (c->mon != selmon) {
+          sendmon(c, selmon);
+          arrange(c->mon);
+          setasmaster(c);
+        } else if (!ISVISIBLE(c)) {
+          c->tags = selmon->tagset[selmon->seltags];
+          arrange(c->mon);
+          setasmaster(c);
+        } else {
+          setasmaster(c);
+        }
+        return;
+      }
+    }
+  }
+}
+
 /* set client windowclass */
 int setwindownameclass(Window w, char *sn, char *sc)
 {
@@ -702,6 +786,58 @@ int setwindownameclass(Window w, char *sn, char *sc)
   ch.res_name = sn;
   ch.res_class = sc;
   return XSetClassHint(dpy, w, &ch);
+}
+
+/* show the apps and focus/kill/master the selected one */
+void showapps(const Arg *arg)
+{
+  Arg a;
+  Monitor *m;
+  Client *c;
+  FILE *file = NULL;
+  char *tmpdir = gettmpdir();
+  char *user = getenv("USER");
+  char filepath1[FILE_SIZE];
+  char filepath2[FILE_SIZE];
+  char line[LINE_SIZE];
+  char cmd[sizeof filepath1 + sizeof filepath2 + 20]; /* 20 dmenu|sort */
+  int nclients = 0;
+  int winid = 0;
+
+  sprintf(filepath1, "%s/%s-dwm-showapps-list.txt", tmpdir, user);
+  if (!(file = fopen(filepath1, "w+"))) {
+    debug("can't create file %s", filepath1);
+    return;
+  }
+  for (m = mons; m; m = m->next) {
+    for (c = m->clients; c; c = c->next) {
+      fprintf(file, "%s\n", getwindowclass(c->win));
+      nclients++;
+    }
+  }
+  fclose(file);
+
+  sprintf(filepath2, "%s/%s-dwm-showapps-select.txt", tmpdir, user);
+  snprintf(cmd, sizeof cmd, "sort %s | dmenu -l %d > %s", filepath1, nclients, filepath2);
+  if (system(cmd) && (file = fopen(filepath2, "r"))) {
+    if (fgets(line, sizeof line - 1, file)) {
+      /* remove '\n' from fgets */
+      line[strcspn(line, "\n")] = '\0';
+      a.v = line;
+      if (strcmp(arg->v, "focus") == 0) {
+        focusclient(&a);
+      } else if (strcmp(arg->v, "kill") == 0) {
+        winid = getidfromclass(&a);
+        if (winid) {
+          XKillClient(dpy, winid);
+        }
+      } else if (strcmp(arg->v, "master") == 0) {
+        winid = getidfromclass(&a);
+        setasmastermon(getclientfromid(winid));
+      }
+    }
+    fclose(file);
+  }
 }
 
 /* http://permalink.gmane.org/gmane.comp.misc.suckless/8087 */
