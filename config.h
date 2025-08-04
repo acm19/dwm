@@ -180,9 +180,9 @@ static Key keys[] = {
   /* END OF MODKEYS */
 
   /* FUNCTION KEYS */
-  { 0,     XF86XK_AudioMute,         spawn,    SHCMD("amixer -D pulse sset Master toggle && wmbarupdate") },
-  { 0,     XF86XK_AudioRaiseVolume,  spawn,    SHCMD("amixer -D pulse sset Master 5%+ && wmbarupdate") },
-  { 0,     XF86XK_AudioLowerVolume,  spawn,    SHCMD("amixer -D pulse sset Master 5%- && wmbarupdate") },
+  { 0,     XF86XK_AudioMute,         spawn,    SHCMD("amixer sset Master toggle && wmbarupdate") },
+  { 0,     XF86XK_AudioRaiseVolume,  spawn,    SHCMD("amixer sset Master unmute if muted && amixer sset Master 5%+ && wmbarupdate") },
+  { 0,     XF86XK_AudioLowerVolume,  spawn,    SHCMD("amixer sset Master unmute if muted && amixer sset Master 5%- && wmbarupdate") },
   { 0,     XK_Print,                 spawn,    SHCMD("wmscreenshot full") }
   /* END OF FUNCTION KEYS */
 };
